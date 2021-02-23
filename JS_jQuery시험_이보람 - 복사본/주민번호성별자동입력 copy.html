@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>주민번호로 생일 성별 자동 입력시키기</title>
+    <script language=javascript>
+        /*숫자인지 체크*/
+        function onlyNum(el) {
+            el.value = el.value.replace(/\D/g, '');
+        }
+        /*주민번호 앞자리 입력후 두번째 입력상자로 자동 포커스 옮기기*/
+
+        function ch(frmObj, pan) {
+            len = frmObj.value.length;
+
+            switch (pan) {
+                case "ju1": if (len == 6) frm.ju2.focus(); break;
+                case "ju2": if (len == 7) frm.ok.focus(); break;
+            }
+        }
+
+        /*주민번호 6자리로 생일 자동 입력하기*/
+        /*코딩1 : 성별 구분하기*/
+
+        function jumin() {
+            year = frm.ju1.value.substr(0, 2);
+            month = frm.ju1.value.substr(2, 2);
+            day = frm.ju1.value.substr(4, 2);
+            s = frm.ju2.value.charAt(0);
+
+            if (s == 1 || s == 3) frm.sex[0].checked = true;
+            if (s == 2 || s == 4) frm.sex[1].checked = true;
+
+            frm.yy.value = year;
+            frm.mm.value = month;
+            frm.dd.value = day;
+        }
+
+    </script>
+
+</head>
+
+<body onLoad="frm.ju1.focus()" leftmargin=10 topmargin=10>
+    <form name=frm>
+        주민번호 : <input type=text size=6 maxlength=6 name=ju1 onKeyUp="onlyNum(this);ch(this,'ju1')"> -
+        <input type=text size=7 maxlength=7 name=ju2 onKeyUp="onlyNum(this);ch(this,'ju2')">
+        <input type=button value="확인" name=ok onClick="jumin()" class="button">
+        <p>
+
+            생년월일 : <input type=text size=4 name=yy onKeyUp="onlyNum(this);"> 년
+            <input type=text size=2 name=mm onKeyUp="onlyNum(this);"> 월
+            <input type=text size=2 name=dd onKeyUp="onlyNum(this);"> 일
+            <input type="radio" name="sex" class=nostyle>남
+            <input type="radio" name="sex" class=nostyle>여
+    </form>
+</body>
+
+</html>

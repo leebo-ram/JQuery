@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 | 투어 리스트 인 투어</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script> 
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+    
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+    
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+    
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("sample6_extraAddress").value = extraAddr;
+                    
+                    } else {
+                        document.getElementById("sample6_extraAddress").value = '';
+                    }
+    
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
+    <script src="../js/script.js"></script>
+</head>
+<body>
+    <ul class="skipnavi">
+        <li><a href="#container">본문내용</a></li>
+    </ul>
+    <!-- wrap -->
+    <div id="wrap">
+        <header id="header">
+            <div class="header_area box_inner clear">
+                <h1><a href="./index.html">Tourist in tour</a></h1>
+                <!-- 모바일 메뉴 그리기 -->
+                <p class="openMOgnb"><a href="#"><b class="hdd">메뉴열기</b><span></span><span></span><span></span></a></p>
+                <!-- 모바일 메뉴 그리기 끝-->
+                <!-- 상단 메뉴 -->
+                <div class="header_cont">
+                    <ul class="util clear">
+                        <li><a href="./member/login.html">로그인</a></li>
+                        <li><a href="./member/regist.html">회원가입</a></li>
+                    </ul>
+                    <nav>
+                        <ul class="gnb clear">
+                            <li>
+                                <a href="#" class="openAll1">여행정보</a>
+                                <div class="gnb_depth gnb_depth2_1">
+                                    <ul class="submenu_list">
+                                        <li><a href="#">국내</a></li>
+                                        <li><a href="#">해외</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="openAll2">고객센터</a>
+                                <div class="gnb_depth gnb_depth2_2">
+                                    <ul class="submenu_list">
+                                        <li><a href="#">공지사항</a></li>
+                                        <li><a href="#">문의하기</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="openAll3">상품투어</a>
+                                <div class="gnb_depth gnb_depth2_3">
+                                    <ul class="submenu_list">
+                                        <li><a href="#">프로그램 소개</a></li>
+                                        <li><a href="#">여행자료</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="openAll4">티켓/가이드</a>
+                                <div class="gnb_depth gnb_depth2_4">
+                                    <ul class="submenu_list">
+                                        <li><a href="#">항공</a></li>
+                                        <li><a href="#">호텔</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="closePop"><a href="#">닫기</a></p>
+                </div>
+                <!-- 상단 메뉴 끝-->
+            </div>
+        </header>
+        <!-- container -->
+        <div id="container">
+            <div class="location_area member">
+                <div class="box_inner">
+                    <h2 class="tit_page">TOURIST <span class="in">in</span> TOUR</h2>
+                    <p class="location">MEMBER <span class="path">/</span> 회원가입</p>
+                    <ul class="page_menu clear">
+                        <li><a href="#" class="on">회원가입</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 본문 -->
+            <div class="bodytext_area box_inner">
+                <form action="regist.jsp" method="post" class="appForm" onsubmit="return sendit()"> 
+                    <fieldset>
+                        <legend>회원가입 입력 양식</legend>
+                        <p class="info_pilsoo pilsoo_item">필수입력</p>
+                        <ul class="app_list">
+                            <li class="clear">
+                                <label for="email_lbl" class="tit_lbl pilsoo_item">이메일</label>
+                                <div class="app_content email_area">
+                                    <input type="text" class="w160" name = "email1" id="email_lbl" title="이메일 주소" onkeyup="chkChar(this)"> <span class="ico_space">@</span> <input type="text" class="w160" name = "email2" id="email_lbl2"  title="이메일 제공업체">
+                                    <div class="select_common">
+                                        <select name="select_email" onChange="selectEmail(this)" title="이메일 제공업체">
+                                            <option value="" disabled selected>선택하세요</option>
+                                            <option value="naver.com">naver.com</option>
+                                            <option value="daum.net">daum.net</option>
+                                            <option value="gmail.com">gmail.com</option>
+                                            <option value="nate.com">nate.com</option>
+                                            <option value="1">직접입력</option>
+                                        </select>
+                                </div>
+                                    
+                                    <!-- <input type="text" class="w160" id="email_lbl" title="이메일 주소"> <span class="ico_space">@</span> <input type="text" class="w160" title="이메일 제공업체">
+                                    <div class="select_common">
+                                        <select title="이메일 제공업체">
+                                            <option value="">직접입력</option>
+                                            <option value="naver">naver.com</option>
+                                            <option value="daum">daum.net</option>
+                                            <option value="gmail">gmail.com</option>
+                                            <option value="nate">nate.com</option>
+                                        </select>
+                                    </div> -->
+                                </div>
+                            </li>
+                            <li class="clear">
+                                <label for="name_lbl" class="tit_lbl pilsoo_item">이름</label>
+                                <div class="app_content"><input type="text"  name="username" id="username" placeholder="이름을 입력하세요" class="w100p" id="name_lbl"></div>
+                            </li>
+                            <li class="clear">
+                                <label for="pwd_lbl" class="tit_lbl pilsoo_item">비밀번호</label>
+                                <div class="app_content"><input type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력하세요" class="w100p" id="name_lbl"></div>
+                            </li>
+                            <li class="clear">
+                                <label for="pwd2_lbl" class="tit_lbl pilsoo_item">비밀번호 확인</label>
+                                <div class="app_content"><input type="password"  name="userpw_re" id="userpw_re" maxlength="20" placeholder="비밀번호 확인을 입력하세요" class="w100p" id="name_lbl"></div>
+                            </li>
+                            <li class="clear" id="hp_list">
+                                <label for="phone_lbl" class="tit_lbl pilsoo_item">연락처</label>                                
+                                <div class="app_content"><input type="tel" name="hp" id="hp" placeholder="휴대폰 번호를 입력하세요" class="w100p" id="name_lbl"></div>
+                               <button id="app">연락처 추가</button>
+                                    <script>
+                                        $('#app').on('click', function(){
+                                            $('#hp_list').after('<label for="phone_lbl" class="tit_lbl pilsoo_item">연락처 추가</label>  <input type="tel" name="hp" id="hp" placeholder="추가할 연락처를 입력하세요" class="w550" id="name_lbl">')
+                                        });
+                                    </script>
+                                    
+                            </li>
+                             
+                            <li class="clear">
+                                <input type="hidden" name="isSsn" id="isSsn" value="n">
+                                <label for="ssn_lbl" class="tit_lbl pilsoo_item">주민등록번호</label>
+                                <div class="app_content"> <input type="text" name="ssn1" id="ssn1" maxlength="6"> - <input type="text" name="ssn2" id="ssn2" maxlength="7"> <input type="button" id="ssnBtn" value="주민등록번호 검증" style="width: 115px; height: 45px; background-color: blue; color: white;">
+                                    <!-- <input type=button value="확인" name=ok onClick="jumin()" class="button"> -->
+                                </div>
+                            </li>
+                            
+                             <!-- 우편번호 시작 -->
+                            <div class="app_content">
+                             <li class="clear">
+                                <label for="name_lbl" class="tit_lbl pilsoo_item ">우편번호</label>
+                                <input type="text" name="zipcode" id="sample6_postcode" placeholder="우편번호" readonly class="w650" id="name_lbl"></label> <input type="button" value="우편번호 검색" onclick="sample6_execDaumPostcode()"  style="width: 100px; height: 45px; background-color: blue; color: white;" >
+                            </li>
+
+                            <li class="clear">
+                                <label for="name_lbl" class="tit_lbl pilsoo_item">주소</label>
+                                <input type="text" name="address1" id="sample6_address" placeholder="주소" class="w800" id="name_lbl">
+                            </li>
+
+                            <li class="clear">
+                                <label for="name_lbl" class="tit_lbl pilsoo_item">상세주소</label>
+                                <input type="text" name="address2" id="sample6_detailAddress" placeholder="상세주소" class="w800" id="name_lbl">
+                            </li>
+
+                            <li class="clear">
+                                <label for="name_lbl" class="tit_lbl">참고항목</label>
+                                <input type="text" name="address3" id="sample6_extraAddress" placeholder="참고항목" class="w800" id="name_lbl">
+                            </li>
+                        </div>
+                            <!-- 우편번호 끝 -->
+
+                            <li class="clear">
+                                <span class="tit_lbl">성별</span>
+                                <div class="app_content radio_area">
+                                    <input type="radio" class="css-radio" id="mmm_lbl" name="gender" value="남">
+                                    <label for="mmm_lbl">남</label>
+                                    <input type="radio" class="css-radio" id="www_lbl" name="gender" value="여">
+                                    <label for="www_lbl">여</label>
+                                </div>
+                            </li>
+                            <li class="clear">
+                                <label for="#" class="tit_lbl">생년월일</label>
+                                <div class="app_content ssn_area">
+                                    <div class="select_common">
+                                        <select title="태어난 해" >
+                                            <option value="" id="years">직접입력</option>
+                                        </select>
+                                    </div><span class="birth_space">년</span>
+                                    <div class="select_common">
+                                        <select title="태어난 월">
+                                            <option value="" id="months">직접입력</option>
+                                        </select>
+                                    </div><span class="birth_space">월</span>
+                                    <div class="select_common">
+                                        <select title="태어난 일">
+                                            <option value="" id="dates">직접입력</option>
+                                        </select>
+                                    </div><span class="birth_space">일</span>
+                                </div>
+                            </li>
+                            <li class="clear">
+                                <span class="tit_lbl">개인정보 활용동의</span>
+                                <div class="app_content checkbox_area">
+                                    <input type="checkbox" class="css-checkbox" id="agree_lbl" name="agree" checked><label for="agree_lbl">동의함</label>
+                                </div>
+                            </li>
+                            <li class="clear">
+                                <label for="content_lbl" class="tit_lbl">문의내용</label>
+                                <div class="app_content"><textarea id="content_lbl" class="w100p" placeholder="간단한 상담 요청 사항을 남겨주시면 보다 상세한 상담이 가능합니다. 전화 상담 희망시 기재 부탁드립니다.(200자 제한)"></textarea>
+                                    <div id="content_cnt">(0 / 200)</div>
+                                </div>
+                                <input type="file" name="file" id="imageFileOpenInput" accept="image/*">
+                            </li>
+                        </ul>
+                       
+
+
+                        <p class="btn_line"><input type="submit" value="등록" class="btn_basecolor"></p>
+                    </fieldset>
+                </form>
+            </div>
+            <!-- 본문 끝 -->
+        </div>
+        <!-- container 끝 -->
+        <footer>
+            <div class="foot_area box_inner">
+                <ul class="foot_list clear">
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보취급방침</a></li>
+                </ul>
+                <h2>투어리스트인투어</h2>
+                <p class="addr">서울특별시 종로구 혜화동 9길 청운빌딩 5층 <span class="gubun">/</span> <span class="br_line">대표전화 <span class="space0">02-1234-5678</span> <span class="gubun">/</span> <span class="br_line">E-mail : <span class="space0">titour@touristintour.com</span></span></span></p>
+                <p class="copy box_inner">Copyright(c) TouristInTour all right reserved</p>
+                <ul class="snslink">
+                    <li><a href="#">blog</a></li>
+                    <li><a href="#">facebook</a></li>
+                    <li><a href="#">instagram</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+    <!-- wrap 끝 -->
+    <!-- quick list -->
+    <div class="quick_area">
+        <ul class="quick_list">
+            <li><a href="tel:02-1111-1111"><h3>전화 문의</h3><p>02-1111-1111</p></a></li>
+            <li><a href="#"><h3>카카오톡 <em>상담</em></h3><p>1:1상담</p></a></li>
+            <li><a href="#"><h3 class="to_content">오시는 길</h3></a></li>
+        </ul>
+        <p class="to_top"><a href="#">TOP</a></p>
+    </div>
+    <!-- quick list 끝 -->
+</body>
+</html>

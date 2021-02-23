@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>주민번호로 생일 성별 자동 입력시키기</title>
+    <script language=javascript>
+        /*숫자인지 체크*/
+        function onlyNum(el) {
+            el.value = el.value.replace(/\D/g, '');
+        }
+        /*주민번호 앞자리 입력후 두번째 입력상자로 자동 포커스 옮기기*/
+
+        function ch(frmObj, pan) {
+            len = frmObj.value.length;
+
+            switch (pan) {
+                case "ssn1": if (len == 6) frm.ssn2.focus(); break;
+                case "ssn2": if (len == 7) frm.ok.focus(); break;
+            }
+        }
+
+        /*주민번호 6자리로 생일 자동 입력하기*/
+        /*코딩1 : 성별 구분하기*/
+
+        function jumin() {
+            year = isSsn.ssn1.value.substr(0, 2);
+            month = isSsn.ssn1.value.substr(2, 2);
+            day = isSsn.ssn1.value.substr(4, 2);
+            s = isSsn.ssn2.value.charAt(0);
+
+            if (s == 1 || s == 3) isSsn.gender[0].checked = true;
+            if (s == 2 || s == 4) isSsn.gender[1].checked = true;
+
+            isSsn.yy.value = year;
+            isSsn.mm.value = month;
+            isSsn.dd.value = day;
+        }
+
+    </script>
+
+</head>
+
+<body onLoad="isSsn.ssn1.focus()" leftmargin=10 topmargin=10>
+    <form name=isSsn>
+        주민번호 : <input type=text size=6 maxlength=6 name=ssn1 onKeyUp="onlyNum(this);ch(this,'ssn1')"> -
+        <input type=text size=7 maxlength=7 name=ssn2 onKeyUp="onlyNum(this);ch(this,'ssn2')">
+        <input type=button value="확인" name=ok onClick="jumin()" class="button">
+        <p>
+
+            생년월일 : <input type=text size=4 name=yy onKeyUp="onlyNum(this);"> 년
+            <input type=text size=2 name=mm onKeyUp="onlyNum(this);"> 월
+            <input type=text size=2 name=dd onKeyUp="onlyNum(this);"> 일
+            <input type="radio" name="gender" class=nostyle>남
+            <input type="radio" name="gender" class=nostyle>여
+    </form>
+</body>
+
+</html>

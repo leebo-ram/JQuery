@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+     <title>회원가입</title>
+<script>
+    function changeColor()
+    {
+        var color = ["#FF0000", "#00FF00", "#0000FF","#000FFF","#00F0FF","#0F00FF","#F000FF"];
+        var title = document.getElementById("body");
+        var i = 0;
+ 
+        setInterval(function(){
+        title.style.color = color[i]; //title의 색상을 바꿈
+        i = (i+1) % color.length;
+    },50);
+    }
+    </script>
+     <script language="javascript">
+         
+          function Check(){
+                       
+               var idCheck = document.getElementById("ID");
+               var passCheck = document.getElementById("pass");
+               var passCheckch = document.getElementById("passch");
+               var emailCheck = document.getElementById("email");
+               var nameCheck = document.getElementById("names");
+               var introCheck = document.getElementById("context");
+               var tmp = introCheck.value.replace(/\s|　/gi, '');
+               var hobbyCheck = false;
+               var arrHobby = document.getElementsByName("hobby[]");
+ 
+               var jumins1=document.getElementById("jumin1");
+               var jumins2=document.getElementById("jumin2");
+               var jumins3 = jumins1.value + jumins2.value;
+ 
+                
+ 
+ 
+               var email = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/)
+               var id= RegExp(/^[a-zA-Z0-9]{4,12}$/)
+               var pass= RegExp(/^[a-zA-Z0-9]{4,12}$/)
+               var named= RegExp(/^[가-힣]+$/)
+               var fmt = RegExp(/^\d{6}[1234]\d{6}$/)  //포멧 설정
+               var buf = new Array(13);
+ 
+ 
+ 
+ 
+               //아이디 공백 확인
+               if(idCheck.value == ""){
+                    alert("아이디 입력바람");
+                    idCheck.focus();
+                    return false;
+               }
+               //아이디 유효성검사
+               if(!id.test(idCheck.value)){
+                    alert("형식에 맞게 입력해주세요");
+                    idCheck.value = "";
+                    idCheck.focus();
+                    return false;
+               }
+            
+              //비밀번호 공백 확인
+               if(passCheck.value == ""){
+                    alert("패스워드 입력바람");
+                    passCheck.focus();
+                    return false;
+               }
+ 
+               //아이디 비밀번호 같음 확인
+               if(idCheck.value == passCheck.value){
+                    alert("아이디와 비밀번호가 같습니다");
+                    passCheck.value= "";
+                    passCheck.focus();
+                     return false;
+               }
+ 
+                //비밀번호 유효성검사
+               if(!pass.test(passCheck.value)){
+                    alert("형식에 맞게 입력해주세요");
+                    passCheck.value= "";
+                    passCheck.focus();
+                     return false;
+               }
+ 
+               //비밀번호 확인란 공백 확인
+               if(passCheckch.value == ""){
+                    alert("패스워드 확인란을 입력해주세요");
+                    passCheckch.focus();
+                    return false;
+               }
+               //비밀번호 서로확인
+               if(passCheck.value != passCheckch.value){
+                    alert("비밀번호가 상이합니다");
+                    passCheck.value = "";
+                    passCheckch.value = "";
+                    passCheck.focus();
+                    return false;
+               }
+ 
+               //이메일 공백 확인
+               if(emailCheck.value == ""){
+                    alert("이메일을 입력해주세요");
+                    emailCheck.focus();
+                    return false;
+               }
+ 
+               //이메일 유효성 검사
+               if(!email.test(emailCheck.value)){
+                    alert("이메일형식에 맞게 입력해주세요")
+                    emailCheck.value= "";
+                    emailCheck.focus();
+                    return false;
+               }
+ 
+               //이름 공백 검사
+               if(nameCheck.value == ""){
+                    alert("이름을 입력해주세요");
+                    nameCheck.focus();
+                    return false;
+               }
+ 
+               //이름 유효성 검사
+               if(!named.test(nameCheck.value)){
+                    alert("이름형식에 맞게 입력해주세요")
+                    nameCheck.value= "";
+                    nameCheck.focus();
+                    return false;
+               }
+ 
+               //주민번호 공백 검사
+               if(jumins1.value == "" || jumins2.value == ""){
+                    alert("주민등록번호를 입력해주세요");
+                    jumins1.focus();
+                    return false;
+               }
+               //주민번호 유효성 검사
+               if (!fmt.test(jumins3)) {
+                     alert("주민등록번호 형식에 맞게 입력해주세요");
+                     return false;
+                 }
+ 
+                 //주민번호 존재 검사
+                  for (var i = 0; i < buf.length; i++){
+                    buf[i] = parseInt(jumins3.charAt(i));
+               }
+                    var multipliers = [2,3,4,5,6,7,8,9,2,3,4,5];// 밑에 더해주는 12자리 숫자들 
+                    var sum = 0;
+ 
+                     for (var i = 0; i < 12; i++){
+                         sum += (buf[i] *= multipliers[i]);// 배열끼리12번 돌면서 
+                    }
+                      if ((11 - (sum % 11)) % 10 != buf[12]) {
+                         alert("잘못된 주민등록번호 입니다.");
+                           return false;
+                           }
+               
+ 
+               //주민등록번호 생년월일 전달
+               var birthYear = (jumins3.charAt(6) <= "2") ? "19" : "20";
+               birthYear += jumins1.value.substr(0, 2);
+               var birthMonth = jumins1.value.substr(2, 2);
+               var birthDate = jumins1.value.substr(4, 2);
+               var birth = new Date(birthYear, birthMonth, birthDate);
+               var yearr = document.getElementById("years");
+               var monthss = document.getElementById("months");
+               var datess = document.getElementById("dates");
+                         
+                yearr.value = parseInt(birthYear);
+                monthss.value = parseInt(birthMonth);
+                datess.value = parseInt(birthDate);
+ 
+                   
+ 
+ 
+               //취미 유효성 검사
+               for(var i=0;i<arrHobby.length;i++){
+                    if(arrHobby[i].checked == true) {
+                       hobbyCheck = true;
+                         break;
+                    }
+                }
+                if(!hobbyCheck){
+                    alert("하나이상 관심분야를 체크해 주세요");
+                    return false;
+                }
+ 
+ 
+               //자기소개란 공백 검사
+               if(tmp== ""){
+                    alert("자기소개를 입력해주세요")
+                    introCheck.value= "";
+                    introCheck.focus();
+                    return false;
+               }
+ 
+               return true;
+          }
+     </script>
+  </head>
+   <center>
+ 
+ 
+  <body onload="changeColor()"" id = "body">
+      <!-- <meta charset="utf-8"> -->
+       <form   onsubmit="return Check()" method="post" action="MAILTO:dlapdlf@naver.com" enctype="text/plain" >
+     <table name="ta" border="1">
+         <tr>
+             <td colspan="2" align="center" bgcolor="9cceff"><font size="5"><b>
+                 회원 기본 정보</b></font>
+             </td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff" ><font size="4"><b>아이디</b></font></td>
+             <td><input type="text" AUTOCOMPLETE="off" name = "Id" id="ID" size="20"><B> *4~12자의 영문 대소문자와 숫자로만 입력</B></td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>비밀번호</b></font></td>
+             <td><input type="password" AUTOCOMPLETE="off" name ="password" id="pass"  size="21"><B> *4~12자의 영문 대소문자와 숫자로만 입력</B></td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>비밀번호확인</b></font></td>
+             <td><input type="password" AUTOCOMPLETE="off" name ="passwordCheck" id="passch"  size="21"></td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>메일주소</b></font></td>
+             <td><input type="text" AUTOCOMPLETE="off" name ="Email" id="email" size="40" ><b> 예)id@domain.com</b></td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>이름</b></font></td>
+             <td><input type="text" AUTOCOMPLETE="off" name ="UserName" id="names" size="40" ></td>
+         </tr>
+         <tr>
+             <td colspan="2" align="center" bgcolor="9cceff"><font size="5"><b>개인 신상 정보</b></font></td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>주민등록번호</b></font></td>
+             <td><input type="text" AUTOCOMPLETE="off" name="jumin1" id="jumin1" size="10" > - <input type="password" name="jumin2" id="jumin2" size="15"></td>
+         </tr>
+         <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4" ><b>생일</b></font></td>
+             <td><input type="text" AUTOCOMPLETE="off" name ="UserBirthYear" id="years" size="4" readonly  disabled><b>년</b>
+                 <input type="text" AUTOCOMPLETE="off" name = "UserBirthMonth" id="months" style="width: 20px;" readonly  disabled><b>월</b>    
+                 <input type="text" AUTOCOMPLETE="off" name = "UserBirthDate" id="dates" style="width: 20px;"" readonly  disabled><b>일</b>
+               </td>
+         </tr>
+          <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>관심분야</b></font></td>
+               <td><input type="checkbox" name ="hobby[]" value="컴퓨터">컴퓨터
+                  <input type="checkbox" name ="hobby[]" value="인터넷">인터넷
+                  <input type="checkbox" name ="hobby[]" value="여행">여행
+                  <input type="checkbox" name ="hobby[]" value="영화감상">영화감상
+                  <input type="checkbox" name ="hobby[]" vlaue="음악감상">음악감상</td>
+          </tr>
+          <tr>
+             <td align="center" bgcolor="cde6ff"><font size="4"><b>자기소개</b></font></td>
+              <td><textarea name = "Introduce" id="context" cols="80" rows="9"></textarea></td>
+          </tr>
+          </table>
+<!-- <marquee behavior="alternate" scrollamount="300"> --><input type="submit" value="회원 가입">
+<input type="reset" value="다시 입력"><!-- </marquee> -->
+</form>
+  </body>
+ 
+ 
+ 
+ </center>
+</html>
